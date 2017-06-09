@@ -1,0 +1,75 @@
+<div *ngIf="error.length < 1">
+  <md-card>
+    <md-toolbar>
+      <div id="toolbar-title">{{toolbar.title}}</div> 
+      <div id="toolbar-spacer"></div>
+      <div id="toolbar-action">
+        <md-icon *ngIf="toolbar.delete">delete</md-icon>
+        <md-icon *ngIf="toolbar.search">search</md-icon>
+        <md-icon *ngIf="toolbar.more">more_vert</md-icon>
+      </div>
+    </md-toolbar>
+    
+    <md-progress-bar mode="indeterminate" *ngIf="isLoadingList"></md-progress-bar>
+
+    <table *ngIf="!isLoadingList">
+      <tr>
+        <th id="list-item-checkbox" *ngIf="toolbar.delete">
+          <md-checkbox></md-checkbox>
+        </th>
+
+        <th *ngFor="let header of arrayHeader">
+          {{ header }}
+        </th>
+
+        <th class="list-item-actions" *ngIf="list.edit || list.delete">
+        </th>
+      </tr>
+
+      <tr class="list-item" *ngFor="let data of arraySourceFinal">
+        <td *ngIf="toolbar.delete">
+          <md-checkbox></md-checkbox>
+        </td>
+
+        <td *ngFor="let item of data">
+          {{ item }}
+        </td>
+
+        <td class="list-item-actions" *ngIf="list.edit">
+          <md-icon *ngIf="list.edit">edit</md-icon>
+        </td>
+      </tr>
+    </table>
+
+    <md-toolbar *ngIf="!isLoadingList">
+      <div id="list-controllers">
+        <span>
+          <md-select placeholder="Rows per page" [(ngModel)]="selectedRowValue" name="row">
+            <md-option *ngFor="let row of rows" [value]="row">
+              {{row}}
+            </md-option>
+          </md-select>
+        </span>
+
+        <span>
+          <md-select placeholder="Page" [(ngModel)]="selectedPageValue" name="page">
+            <md-option *ngFor="let page of pages" [value]="page">
+              {{page}}
+            </md-option>
+          </md-select>
+        </span>
+
+        <span>
+          <md-icon>keyboard_arrow_left</md-icon>
+          <md-icon>keyboard_arrow_right</md-icon>
+        </span>
+      </div>
+    </md-toolbar>
+  </md-card>
+</div>
+
+<div *ngIf="error.length > 0">
+  <md-error>
+    Checar requisitos para o components table-list ({{ error }})
+  </md-error>
+</div>
